@@ -22,6 +22,13 @@ export default function LogisticsTracker() {
     status: 'optimal'
   });
 
+  const [graphHeights, setGraphHeights] = useState([]);
+
+  // Generate stable mock heights on mount
+  useEffect(() => {
+    setGraphHeights(Array.from({ length: 30 }, () => Math.floor(30 + Math.random() * 70)));
+  }, []);
+
   // Re-initialize telemetry on active fruit change
   useEffect(() => {
     setTelemetry({
@@ -55,7 +62,7 @@ export default function LogisticsTracker() {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="mb-12 md:mb-16">
-           <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">Live Diagnostics Simulator</h2>
+           <h2 className="text-3xl md:text-4xl font-sans font-bold mb-4">Live Diagnostics Simulator</h2>
            <p className="text-gray-400">Monitoring real-time transit telemetry for optimal freshness.</p>
         </div>
 
@@ -94,12 +101,12 @@ export default function LogisticsTracker() {
 
               {/* Mock Graph Area */}
               <div className="h-32 flex items-end gap-1 opacity-50 mt-auto">
-                 {[...Array(30)].map((_, i) => (
+                 {graphHeights.map((h, i) => (
                     <div key={i} className="flex-1 rounded-t-sm" 
                          style={{ 
-                            height: `${30 + Math.random() * 70}%`, 
-                            backgroundColor: fruitInfo.accent 
-                         }}>
+                             height: `${h}%`, 
+                             backgroundColor: fruitInfo.accent 
+                          }}>
                     </div>
                  ))}
               </div>

@@ -8,7 +8,7 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-export default function FruitCanvasSequencer() {
+export default function FruitCanvasSequencer({ triggerRef }) {
   const { activeFruit } = useFruit();
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
@@ -43,28 +43,28 @@ export default function FruitCanvasSequencer() {
     let isActive = true; // For unmount cleanup
 
     const loadImages = async () => {
-      for (let i = 0; i < FRAME_COUNT; i++) {
-        if (!isActive) break;
-        
-        const img = new Image();
-        const frameIndex = i.toString().padStart(3, "0");
-        img.src = `/images/sequence/${activeFruit}/frame_${frameIndex}.webp`;
-
-        await new Promise((resolve) => {
+      const loadPromises = Array.from({ length: FRAME_COUNT }, (_, i) => {
+        return new Promise((resolve) => {
+          const img = new Image();
+          const frameIndex = i.toString().padStart(3, "0");
+          img.src = `/images/sequence/${activeFruit}/frame_${frameIndex}.webp`;
           img.onload = () => {
             loadedCount++;
             setLoadingProgress(Math.floor((loadedCount / FRAME_COUNT) * 100));
-            resolve();
+            resolve(img);
           };
           img.onerror = () => {
-            // Silently resolve to not block loop if file missing in dev
-            resolve();
+            loadedCount++;
+            setLoadingProgress(Math.floor((loadedCount / FRAME_COUNT) * 100));
+            resolve(null);
           };
         });
-        images.push(img);
-      }
+      });
 
+      const loadedImages = await Promise.all(loadPromises);
       if (!isActive) return;
+
+      images = loadedImages.filter(img => img !== null);
 
       // Draw initial frame once loaded
       if (images[0]) {
@@ -75,9 +75,9 @@ export default function FruitCanvasSequencer() {
     };
 
     const drawFrame = (index) => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
       if (images[index] && images[index].complete && images[index].naturalHeight !== 0) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
         // Calculate aspect ratio fit (cover)
         const hRatio = canvas.width / images[index].width;
         const vRatio = canvas.height / images[index].height;
@@ -90,6 +90,30 @@ export default function FruitCanvasSequencer() {
           0, 0, images[index].width, images[index].height,
           centerShift_x, centerShift_y, images[index].width * ratio, images[index].height * ratio
         );
+      } else {
+        // Fallback drawing if image fails or hasn't loaded yet
+        ctx.fillStyle = '#f8fafc';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.beginPath();
+        const progress = index / Math.max(FRAME_COUNT - 1, 1);
+        const cx = 400 + (progress * 1120);
+        ctx.arc(cx, canvas.height / 2, 200, 0, Math.PI * 2);
+        
+        const colors = { apple: '#ef4444', mango: '#f59e0b', pineapple: '#eab308', orange: '#f97316' };
+        ctx.fillStyle = colors[activeFruit] || '#94a3b8';
+        ctx.globalAlpha = 0.2;
+        ctx.fill();
+        ctx.globalAlpha = 1.0;
+        
+        ctx.fillStyle = '#1e293b';
+        ctx.font = 'bold 80px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(activeFruit.toUpperCase() + ' PREVIEW', canvas.width/2, canvas.height/2 - 40);
+        
+        ctx.font = '60px sans-serif';
+        ctx.fillStyle = colors[activeFruit] || '#94a3b8';
+        ctx.fillText(`FRAME [${index.toString().padStart(3, '0')}]`, canvas.width/2, canvas.height/2 + 60);
       }
     };
 
@@ -102,7 +126,7 @@ export default function FruitCanvasSequencer() {
           snap: "frame",
           ease: "none",
           scrollTrigger: {
-            trigger: containerRef.current,
+            trigger: triggerRef ? triggerRef.current : containerRef.current,
             start: "top top",
             end: "+=150%",
             scrub: 0.5,
@@ -125,38 +149,29 @@ export default function FruitCanvasSequencer() {
       images = [];
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
-  }, [activeFruit, isMobile]);
+  }, [activeFruit, isMobile, triggerRef]);
 
   return (
-    <div ref={containerRef} className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
+    <div ref={containerRef} className="relative w-full h-full min-h-[500px] z-10 overflow-hidden pointer-events-none rounded-3xl shadow-2xl border border-neutral-100/80 bg-white group flex items-center justify-center">
+      {/* Light gradient backing to brighten up the viewport */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-white via-neutral-50/50 to-white z-0"></div>
+      
+      {/* Soft theme-based glow overlay */}
+      <div className="absolute w-[400px] h-[400px] rounded-full blur-[100px] opacity-15 pointer-events-none theme-transition z-0" style={{ backgroundColor: 'var(--fruit-glow)' }}></div>
+
       {/* Mobile Fallback */}
       {isMobile ? (
         <div 
-          className="w-full h-full bg-center bg-cover bg-no-repeat"
+          className="w-full h-full bg-center bg-cover bg-no-repeat transition-all duration-700 ease-in-out relative z-10 filter brightness-[1.3] contrast-[1.08] saturate-[1.1]"
           style={{ backgroundImage: `url(/images/sequence/${activeFruit}/frame_000.webp)` }}
         />
       ) : (
-        <>
-          {loadingProgress < 100 && (
-            <div className="absolute inset-0 flex items-center justify-center z-10 bg-[#fafafa]/50 backdrop-blur-sm transition-opacity duration-500">
-               <div className="flex flex-col items-center gap-4">
-                  <div className="w-48 h-1 bg-gray-200 rounded-full overflow-hidden">
-                     <div 
-                        className="h-full bg-brand-500 transition-all duration-300"
-                        style={{ width: `${loadingProgress}%` }}
-                     />
-                  </div>
-                  <span className="text-xs font-mono text-gray-500 font-bold uppercase tracking-widest">Loading Engine {loadingProgress}%</span>
-               </div>
-            </div>
-          )}
           <canvas
             ref={canvasRef}
             width={1920}
             height={1080}
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover transition-opacity duration-700 ease-in-out relative z-10 brightness-[1.3] contrast-[1.08] saturate-[1.1] ${loadingProgress < 100 ? 'opacity-50 blur-sm' : 'opacity-100 blur-0'}`}
           />
-        </>
       )}
     </div>
   );

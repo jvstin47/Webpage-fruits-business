@@ -20,9 +20,8 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        serif: ['var(--font-playfair)', 'serif'],
-        mono: ['var(--font-jetbrains)', 'monospace'],
+        sans: ['var(--font-outfit)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-cormorant)', 'serif'],
       },
     },
   },

@@ -73,7 +73,7 @@ export default function LiveDispatchTicker() {
                <MapPin className="w-5 h-5 shrink-0 mt-0.5" style={{ color: fruitInfo.accent }} />
                <div>
                   <p className="text-sm font-medium leading-snug">{log.text}</p>
-                  <p className="text-xs text-gray-500 mt-1 font-mono">[{log.time}]</p>
+                  <p className="text-xs text-gray-500 mt-1 font-sans">[{log.time}]</p>
                </div>
             </div>
          ))}
