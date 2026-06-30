@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Apple Theme Default */
+    --brand-50: #fef2f2;
+    --brand-100: #fee2e2;
+    --brand-500: #dc2626;
+    --brand-600: #b91c1c;
+    --brand-900: #7f1d1d;
+    --fruit-glow: rgba(220, 38, 38, 0.15);
+  }
+
+  [data-theme="mango"] {
+    --brand-50: #fffbeb;
+    --brand-100: #fef3c7;
+    --brand-500: #f59e0b;
+    --brand-600: #d97706;
+    --brand-900: #78350f;
+    --fruit-glow: rgba(245, 158, 11, 0.15);
+  }
+
+  [data-theme="pineapple"] {
+    --brand-50: #fefce8;
+    --brand-100: #fef08a;
+    --brand-500: #eab308;
+    --brand-600: #ca8a04;
+    --brand-900: #713f12;
+    --fruit-glow: rgba(234, 179, 8, 0.15);
+  }
+
+  [data-theme="orange"] {
+    --brand-50: #fff7ed;
+    --brand-100: #ffedd5;
+    --brand-500: #ea580c;
+    --brand-600: #c2410c;
+    --brand-900: #7c2d12;
+    --fruit-glow: rgba(234, 88, 12, 0.15);
+  }
+}
+
+/* Glassmorphic Components */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+.dark-glass {
+  background: rgba(12, 12, 16, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+.glass {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Prevent Text Selection during micro-interactions */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #fafafa;
+}
+::-webkit-scrollbar-thumb {
+  background: #e4e4e7;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
+
+/* Smooth CSS transitions */
+.theme-transition {
+  transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pulse-element {
+  animation: pulse-slow 8s infinite alternate;
+}
+
+@keyframes pulse-slow {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.1) translate(20px, -20px); }
+}
+
+@keyframes ticker {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-33.33%, 0, 0);
+  }
+}
+.animate-ticker {
+  animation: ticker 40s linear infinite;
+}
