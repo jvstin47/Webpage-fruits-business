@@ -27,12 +27,17 @@ export default function SourcingMatrix() {
   });
 
   return (
-    <section id="sourcing" className="bg-white relative">
-      <div className="py-24 max-w-7xl mx-auto px-6">
+    <section id="sourcing" className="bg-white relative overflow-hidden bg-noise">
+      
+      {/* Immersive Background Orbs */}
+      <div className="absolute top-[10%] left-[-10%] w-[600px] h-[600px] rounded-full blur-[120px] opacity-[0.05] pointer-events-none pulse-element theme-transition"
+           style={{ backgroundColor: fruitInfo.accent }}></div>
+           
+      <div className="py-24 max-w-7xl mx-auto px-6 relative z-10">
         
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
            <div>
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-2">Global Sourcing Matrix</h2>
+              <h2 className="text-3xl md:text-4xl font-sans font-bold text-gray-900 mb-2">Global Sourcing Matrix</h2>
               <p className="text-gray-500">Real-time catalog of our premium harvest.</p>
            </div>
            
@@ -74,7 +79,7 @@ export default function SourcingMatrix() {
                   <span className="text-xs font-bold uppercase tracking-wider text-gray-400">{item.category}</span>
                   <Info className="w-5 h-5 text-gray-300 group-hover:text-gray-600 transition-colors" />
                </div>
-               <h3 className="font-serif text-xl font-bold text-gray-900 mb-2">{item.name}</h3>
+               <h3 className="font-sans text-xl font-bold text-gray-900 mb-2">{item.name}</h3>
                <div className="flex gap-4 text-sm text-gray-500">
                   <p>Origin: <span className="font-semibold text-gray-700">{item.origin}</span></p>
                </div>
@@ -94,7 +99,7 @@ export default function SourcingMatrix() {
                  <X className="w-6 h-6" />
               </button>
               
-              <h3 className="font-serif text-3xl font-bold mb-2 pr-8">{selectedItem.name}</h3>
+              <h3 className="font-sans text-3xl font-bold mb-2 pr-8">{selectedItem.name}</h3>
               <p className="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-8">{selectedItem.category}</p>
               
               <div className="space-y-4">

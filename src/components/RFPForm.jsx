@@ -26,7 +26,7 @@ export default function RFPForm() {
       <div className="max-w-3xl mx-auto px-6 relative z-10">
         
         <div className="text-center mb-12">
-           <h2 className="text-4xl font-serif font-bold text-gray-900 mb-4">Procurement Intake</h2>
+           <h2 className="text-4xl font-sans font-bold text-gray-900 mb-4">Procurement Intake</h2>
            <p className="text-gray-500">Initiate your B2B order request and our logistics team will respond within 2 hours.</p>
         </div>
 
@@ -52,7 +52,7 @@ export default function RFPForm() {
 
                  <div className="space-y-2">
                     <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Target Fruit</label>
-                    <select className="w-full px-4 py-3 min-h-[44px] rounded-xl bg-gray-50 border border-gray-200 focus-accent focus:outline-none focus-visible:ring-2 appearance-none transition-shadow" style={{ '--fruit-accent': fruitInfo.accent, '--tw-ring-color': fruitInfo.accent }}>
+                    <select className="w-full px-4 py-3 min-h-[44px] rounded-xl bg-gray-50 border border-gray-200 focus-accent focus:outline-none focus-visible:ring-2 transition-shadow" style={{ '--fruit-accent': fruitInfo.accent, '--tw-ring-color': fruitInfo.accent }}>
                        <option>{fruitInfo.name}</option>
                        <option>Other Premium Selection</option>
                     </select>
@@ -60,7 +60,7 @@ export default function RFPForm() {
 
                  <div className="space-y-2">
                     <label className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Volume Requirements (Monthly)</label>
-                    <select className="w-full px-4 py-3 min-h-[44px] rounded-xl bg-gray-50 border border-gray-200 focus-accent focus:outline-none focus-visible:ring-2 appearance-none transition-shadow" style={{ '--fruit-accent': fruitInfo.accent, '--tw-ring-color': fruitInfo.accent }}>
+                    <select className="w-full px-4 py-3 min-h-[44px] rounded-xl bg-gray-50 border border-gray-200 focus-accent focus:outline-none focus-visible:ring-2 transition-shadow" style={{ '--fruit-accent': fruitInfo.accent, '--tw-ring-color': fruitInfo.accent }}>
                        <option>1-5 Containers</option>
                        <option>6-15 Containers</option>
                        <option>15+ Containers</option>

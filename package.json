@@ -1,13 +1,14 @@
 {
-  "name": "pjj-fruits",
-  "version": "0.1.0",
+  "name": "global-fruits-direct",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "assets:mock": "node scripts/generate-placeholders.js"
+    "assets:mock": "node scripts/generate-placeholders.js",
+    "assets:extract": "bash scripts/extract-frames.sh"
   },
   "dependencies": {
     "@gsap/react": "^2.1.1",

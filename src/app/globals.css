@@ -4,40 +4,47 @@
 
 @layer base {
   :root {
-    /* Apple Theme Default */
-    --brand-50: #fef2f2;
-    --brand-100: #fee2e2;
-    --brand-500: #dc2626;
-    --brand-600: #b91c1c;
-    --brand-900: #7f1d1d;
-    --fruit-glow: rgba(220, 38, 38, 0.15);
+    /* Apple Theme: Punchy Cherry Red */
+    --brand-50: #ffe4e6;
+    --brand-100: #fecdd3;
+    --brand-500: #f43f5e;
+    --brand-600: #e11d48;
+    --brand-900: #881337;
+    --fruit-glow: rgba(244, 63, 94, 0.4);
+    --bg-tint-light: #fff1f2;
   }
 
   [data-theme="mango"] {
-    --brand-50: #fffbeb;
-    --brand-100: #fef3c7;
-    --brand-500: #f59e0b;
-    --brand-600: #d97706;
+    /* Mango Theme: Vibrant Tropical Gold */
+    --brand-50: #fef3c7;
+    --brand-100: #fde68a;
+    --brand-500: #fbbf24;
+    --brand-600: #f59e0b;
     --brand-900: #78350f;
-    --fruit-glow: rgba(245, 158, 11, 0.15);
+    --fruit-glow: rgba(251, 191, 36, 0.4);
+    --bg-tint-light: #fffbeb;
   }
 
   [data-theme="pineapple"] {
+    /* Pineapple Theme: Electric Yellow/Green */
     --brand-50: #fefce8;
     --brand-100: #fef08a;
     --brand-500: #eab308;
     --brand-600: #ca8a04;
     --brand-900: #713f12;
-    --fruit-glow: rgba(234, 179, 8, 0.15);
+    --fruit-glow: rgba(234, 179, 8, 0.4);
+    --bg-tint-light: #fefce8;
   }
 
   [data-theme="orange"] {
-    --brand-50: #fff7ed;
-    --brand-100: #ffedd5;
-    --brand-500: #ea580c;
-    --brand-600: #c2410c;
+    /* Orange Theme: Neon Orange */
+    --brand-50: #ffedd5;
+    --brand-100: #fed7aa;
+    --brand-500: #f97316;
+    --brand-600: #ea580c;
     --brand-900: #7c2d12;
-    --fruit-glow: rgba(234, 88, 12, 0.15);
+    --fruit-glow: rgba(249, 115, 22, 0.4);
+    --bg-tint-light: #fff7ed;
   }
 }
 
@@ -110,4 +117,20 @@
 }
 .animate-ticker {
   animation: ticker 40s linear infinite;
+}
+
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+@keyframes float {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(40px, -60px) scale(1.1); }
+  66% { transform: translate(-30px, 30px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+.float-element {
+  animation: float 20s ease-in-out infinite;
 }
